@@ -1,0 +1,508 @@
+
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+\linespread{1.15}
+% The automated optical recognition software used to digitize resume
+% information works best with fonts that do not have serifs. This
+% command uses a sans serif font throughout. Uncomment both lines (or at
+% least the second) to restore a Roman font (i.e., a font with serifs).
+%\usepackage{times}
+% \renewcommand{\familydefault}{\sfdefault}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage[outline]{contour}
+\usepackage{marvosym}
+ \usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{xcolor}
+ 
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em} %1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\begin{enumerate}{}{%
+        % {\begin{list}{}{%
+      \setlength{\leftmargin}{\bibhang}%
+      \setlength{\itemindent}{-\leftmargin}%
+      \setlength{\itemsep}{\bibsep}%
+      \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{enumerate}\vspace{-.6\baselineskip}}
+        % {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+% \usepackage[paper=letterpaper,
+%             %includefoot, % Uncomment to put page number above margin
+%             marginparwidth=1.2in,     % Length of section titles
+%             marginparsep=.05in,       % Space between titles and text
+%             margin=1in,               % 1 inch margins
+%             includemp]{geometry}
+
+%% Use these lines for A4-sized paper   
+\usepackage[paper=a4paper,
+            includefoot, % Uncomment to put page number above margin
+            marginparwidth=30.5mm,    % Length of section titles
+            marginparsep=1.5mm,       % Space between titles and text
+            margin=15mm,              % 25mm margins
+            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+
+\usepackage{fontawesome5}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    % \arabic{page} of \protect\pageref*{LastPage} % +LP
+                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries \centering #2 \hfill #1}\\[-0.15\baselineskip]%
+           
+         \end{minipage}}
+
+\newcommand{\makesubheading}[2][]%
+{\hspace*{-\marginparsep minus \marginparwidth}%
+	\begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+		{ \centering #2 \hfill #1}\\[-0.15\baselineskip]%
+		
+\end{minipage}}
+
+
+% The section headings
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \hyphenpenalty=10000%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+%\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{
+    \begin{center}\textbf{{Ali Satvaty}} \end{center}
+}
+
+\makesubheading{
+	\begin{center}
+		
+		\href{ https://www.github.com/alistvt} {\faGithub*}  $\Big|$ 
+		\href{ https://www.linkedin.com/in/alistvt}{\faLinkedinIn} $\Big|$ 
+		\href{ https://www.medium.com/@alistvt}{\faMediumM} $\Big|$ 
+		\href{ https://www.t.me/alistvt} {\faTelegramPlane}  
+		\\
+		\vspace{0.185cm}
+		\email{alistvt@gmail.com} 
+		
+	\end{center}
+}
+
+% \pagebreak[3]%
+
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+ 
+
+ 
+
+
+
+ 
+ 
+% \rule{1pt}%
+%\section{Objective}
+
+%Insert text here if you want to
+%\begin{innerlist}
+%\item More information and auxiliary documents can be found at\\\url{http://www.tedpavlic.com/facjobsearch/}
+%\end{innerlist}
+
+
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+ 
+\section{\sc {\small RESEARCH INTERESTS}}
+ \textbf{\small NLP, NLU, Chatbots, Question Answering, Information Retrieval, Text-to-image Generation, Speech Processing, Speech Synthesis, Artificial General Intelligence  }
+
+ 
+ 
+
+     \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+\section{\sc Education}
+
+ \textbf{M.Sc. in Artificial Intelligence – Computer Engineering }\hfill{ Sept. 2020 - Present} \\ 
+ \textit{Sharif University of Technology  }\hfill{Tehran, Iran}
+ \begin{innerlist}
+ \item  \textbf{GPA:} 4/4 (18.00/20)\item  \textbf{Mentionable Courses:}
+  Deep Learning, Machine Learning, Digital Signal Processing, Natural Language Processing, Speech Recognition, Artificial intelligence
+
+ \end{innerlist}
+\vspace{0.185cm}
+
+
+ \textbf{B.Sc. in Control and Robotics – Electrical Engineering}   \hfill{ Sept. 2014 - June 2019}\\
+ \textit{Tehran University } \hfill{Tehran, Iran}
+ \begin{innerlist}
+ 	\item  \textbf{GPA:} 3.7/4 (17.02/20)
+ 	\item  \textbf{Mentionable Courses:}  Advanced Programming, Digital Logic Design, Microprocessors, Computer Architecture, Signals and Systems Analysis, Linear Algebra
+
+ \end{innerlist}
+
+ \vspace{0.185cm}
+
+         	
+{\textbf{Diploma in Mathematics and Physics}   \hfill{ Sept. 2010 - June 2014}}\\
+        \textit{NODET (National Organization for the Development of Exceptional Talents)}  \hfill{Mashhad, Iran}
+         
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+ 
+\section{\sc {\small PUBLICATIONS}}
+\begin{innerlist}[leftmargin = 0.1mm]
+
+ 
+ \item []
+ \href{https://aclanthology.org/2022.dialdoc-1.16/}{\textbf{\textit{Docalog: Multi-document Dialogue System using Transformer-based Span Retrieval}}}
+ S.H. Alavian, A. Satvaty, S. Sabouri, E. Asgari, and H. Sameti, \hfill{May 2022, ACL}
+ 
+ \vspace{0.185cm}
+ 
+ \item[]{\textit {Docalog++: Improving Multi-document Dialogue System}}   \hfill{Ongoing}
+  \vspace{0.185cm}
+ \item[]{\textit {How to improve a conversational question answering model? A survey on the recent trends in conversational question answering}}   \hfill{Ongoing}
+  \vspace{0.185cm}
+ \item[]{\textit {FaCoQA: A conversational question answering dataset for Farsi}}   \hfill{Ongoing}
+  \vspace{0.185cm}
+ \item[]{\textit {Sharif-T5: Implementing the T5 model for the Persian language}}   \hfill{Ongoing}
+  \vspace{0.185cm}
+ \item[]{\textit {Naab2: the ready-to-use plug-and-play corpus for Farsi }}   \hfill{Ongoing}
+  \vspace{0.185cm}
+ 
+ 
+ 
+ 
+ 
+\end{innerlist}
+
+ 
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+ 
+   
+\section{\sc Research Experience}
+\textbf{Master’s Thesis,}\textit{ Under the Supervision of Prof. Hossein Sameti }  \hfill{  2020 – 2022 }
+
+		My master's thesis focused on improving the performance of conversational question answering models. After studying and implementing different ideas within the field, I recently participated in ACL's MultiDoc2Dial workshop, where our model stood fifth. Currently, I am working on implementing my new ideas to improve the proposed model even further, the result of which will be published in my upcoming paper Docalog++.
+
+\vspace{0.185cm}
+
+\textbf{B.Sc Internship Period,} \textit{ Under the Supervision of Prof. Mahdi Tale Masouleh} \hfill{  2017 – 2018 }
+
+		As a researcher in the Human and Robot Interaction lab, I worked on a Delta robot with 3 degrees of freedom and specialized in its artificial intelligence. The first step was to develop a conveyor belt system, and the second was to design a vision system for the pick and place process. Image processing was used to detect special, but simple objects, and suction was used to pick them up.
+ 
+   \par\noindent\hspace{-0.21\textwidth}%
+\rule{7.12in}{1pt} \par\nobreak
+
+
+\section{\sc Work Experience}
+\textbf{Data Scientist,} \textit{ASR Gooyesh Pardaz} \hfill{  Feb 2022 - Aug 2022}
+
+
+	I was engaged in three projects in this company. One was to develop a smart chatbot to automatically answer the questions of the customers on various websites, easing the role of customer support. We used different question answering and machine comprehension ideas to improve our chatbot. The other one was deep noise suppression and utilizing the SOTA models to develop an industrial API for the task. In the last project, we explored the possibilities and challenges of creating a knowledge graph over the Farsi language and we developed this knowledge graph to some extent.
+
+ \vspace{0.185cm}
+
+\textbf{Backend Developer,} \textit{Idearun Co.} \hfill{  Jan 2019 - Jan 2020 }
+
+	During this period I worked on two different projects. The first one was a platform for barberries to automatize their reservations and also payments. This project had two major sections. One section for the barbers should the web browser to connect to the platform and the other section is designed for their customers who should use our application installed on their phones. The second project was a payment platform in which merchants could create payment forms and could share them with people to pay by connecting to the third-party payment gates. These projects were implemented using the Django framework and Rest API which are both libraries of python.
+	
+ \vspace{0.185cm}
+
+\textbf{Freelance Python Developer,} \textit{Home}
+ \hfill{  May 2017 - Jan 2020 }
+
+	I have done many projects as a freelancer. I have created websites using Django as the back-end framework for people. My other projects include web scraping and web crawling, developing scripts for various APIs, or providing desired APIs. Some of my projects are open-source and available on my GitHub.
+
+
+ 
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+ 
+
+ 
+
+\section{\sc Teaching Assistantship}
+ 
+\begin{innerlist}
+
+
+
+\item[] \textbf{Information Retrieval course}  
+\\
+\textit{Instructed by Prof. Beigy (Fall 2022)}\hfill{Sharif University of Technology} 
+\item[] \textbf{Deep Learning course}  
+\\
+\textit{Instructed by Prof. Beigy (Fall 2022)}\hfill{Sharif University of Technology} 
+
+\item[] \textbf{Automatic Speech Recognition course}  
+\\
+\textit{Instructed by Prof. Sameti (Spring 2022)}\hfill{Sharif University of Technology} 
+
+\item[] \textbf{Security and Privacy in Machine Learning course}
+\\
+\textit{Instructed by Prof. Rohban (Fall 2021)}\hfill{Sharif University of Technology}  
+
+\item[] \textbf{Digital Logic Design course}
+\\
+\textit{Instructed by Prof. Navvabi (Fall 2018)}\hfill{University of Tehran}  
+
+\item[] \textbf{Communication Systems 1 course}
+\\
+\textit{Instructed by Prof. Abbasfar (Spring 2016)}\hfill{University of Tehran}
+
+\item[] \textbf{Linear Control Systems Laboratory}
+\\
+\textit{Instructed by Prof. Abbasian (Spring 2016)}\hfill{University of Tehran}
+
+\item[] \textbf{Advanced Programming course}
+\\
+\textit{Instructed by Prof. Khosravi (Fall 2016)}\hfill{University of Tehran}
+
+\item[] \textbf{Electrical Circuits I Laboratory}
+\\
+\textit{Instructed by Prof. Rashed Mohassel (Fall 2015)}\hfill{University of Tehran}
+
+\item[] \textbf{Introduction to Computer and Programming}
+\\
+\textit{Instructed by Prof. Moradi (Spring 2014)}\hfill{University of Tehran}
+
+\end{innerlist}
+
+ 
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+ 
+ 
+ \section{\sc Honors \& Awards}
+
+\begin{innerlist} 
+
+ 
+\item[] \textbf{Ranked 5$^{\mathrm{th}}$} \hfill{2022} \\ 
+\textit{\small ACL's MultiDoc2Dial challenge leaderboard}
+
+\item[] \textbf{Ranked 4$^{\mathrm{th}}$} \hfill{2021} \\ 
+\textit{\small Sharif University of Technology’s AI Challenge}
+
+\item[] \textbf{Ranked 4$^{\mathrm{th}}$} \hfill{2020} \\ 
+\textit{ Nationwide Information Technology graduate university entrance exam, among 30,000} 
+ 
+\item[] \textbf{Ranked 12$^{\mathrm{th}}$} \hfill{2020} \\ 
+\textit{ Nationwide Artificial Intelligence graduate university entrance exam, among 35,000} 
+
+\item[] \textbf{Ranked 1$^{\mathrm{st}}$} \hfill{2019} \\ 
+\textit{Sharif University of Technology’s Bot Cup contest}
+
+\item[] \textbf{Received scholarship} \hfill{2017 - 2018} \\ 
+\textit{From the university of Tehran's faculty of Engineering as an exceptional talent student}
+ 
+\item[] \textbf{Ranked 192$^{\mathrm{st}}$} \hfill{2014} \\ 
+\textit{Nationwide mathematics university entrance exam among 210,000 participants (top 0.1\%)}
+	
+\item[] \textbf{NODET} \hfill{2007} \\ 
+\textit{Being accepted in the National Organization for Development of Exceptional Talents}
+ 
+\end{innerlist}
+ 
+  
+   \par\noindent\hspace{-0.21\textwidth}%
+   \rule{7.12in}{1pt} \par\nobreak
+
+  \section{\sc Skills}
+\begin{innerlist}
+\item[] \textbf{Operating Systems}: Linux and Windows
+	\item[]  \textbf{Programming}: Python, MATLAB, C/C++/C\#, Java, SQL, Html/CSS
+	\item [] \textbf{Libraries}: PyTorch, Tensorflow, Scikit-learn, OpenCV, Pandas, NumPy, Matplotlib, Seaborn
+	\item [] \textbf{Software}: Git, Docker, Mysql, MongoDB, Arduino, AutoCAD, WordPress, Label-studio.
+	\item[] \textbf{Typesetting}: \LaTeX, Microsoft Office
+	\item[] \textbf{Languages}: Persian (native), English (99 TOEFL Score), Arabic (Familiar)
+ 
+\end{innerlist}  
+  
+  
+\par\noindent\hspace{-0.21\textwidth}%
+\rule{7.12in}{1pt} \par\nobreak
+
+  \section{\sc Hobbies}
+\begin{innerlist}
+
+	\item [] Chess, Boardgames, Podcasts, Football, Friends
+	
+\end{innerlist}
+
+  
+\par\noindent\hspace{-0.21\textwidth}%
+\rule{7.12in}{1pt} \par\nobreak
+
+  \section{\sc References}
+\begin{innerlist}
+	\item[] \textbf{Hossein Sameti,} Professor, Computer Engineering Department, Sharif University of Technology 
+	\item[] \textbf{Ehsaneddin Asgari,} Professor, Computer Engineering Department, Sharif University of Technology 
+	\item[] \textbf{Amir Abbas Shayegani,} Professor, ECE Department, Engineering Faculty, University of Tehran
+\end{innerlist}  
+
+\end{document}
